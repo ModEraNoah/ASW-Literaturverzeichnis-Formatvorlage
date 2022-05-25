@@ -129,7 +129,7 @@
 	</xsl:template>
 	
 	<!--Defines the output format for a simple DocumentFromInternetSite (in the Bibliography) with important fields defined-->
-	<xsl:template match="b:Source[b:SourceType = 'DocumentFromInternetSite']">
+	<xsl:template match="b:Source[b:SourceType = 'DocumentFromInternetSite']| b:Source[b:BIBTEX_Entry = 'documentfrominternetsite']">
 		<!--Label the paragraph as an Office Bibliography paragraph-->
 		<p>
 			<xsl:for-each select="b:Author/b:Author/b:NameList/b:Person">
@@ -157,11 +157,16 @@
 			<xsl:text>, </xsl:text>
 			<xsl:value-of select="b:URL"/>
 			<xsl:text>, (Zugriff </xsl:text>
-			<xsl:value-of select="b:DayAccessed"/>
-			<xsl:text>.</xsl:text>
-			<xsl:value-of select="b:MonthAccessed"/>
-			<xsl:text>.</xsl:text>
-			<xsl:value-of select="b:YearAccessed"/>
+			<xsl:if test="b:DayAccessed != ''">
+				<xsl:value-of select="b:DayAccessed"/>
+				<xsl:text>.</xsl:text>
+				<xsl:value-of select="b:MonthAccessed"/>
+				<xsl:text> </xsl:text>
+				<xsl:value-of select="b:YearAccessed"/>
+			</xsl:if>
+			<xsl:if test="b:Issue != ''">
+				<xsl:value-of select="b:Issue"/>
+			</xsl:if>
 			<xsl:text>)</xsl:text>
 		</p>
 	</xsl:template>
@@ -199,7 +204,7 @@
 	</xsl:template>
 	
 	<!--Defines the output format for a simple Book (in the Bibliography) with important fields defined-->
-	<xsl:template match="b:Source[b:SourceType = 'ArticleInAPeriodical']">
+	<xsl:template match="b:Source[b:SourceType = 'ArticleInAPeriodical']| b:Source[b:BIBTEX_Entry = 'articleinaperiodical']">
 		<!--Label the paragraph as an Office Bibliography paragraph-->
 		<p>
 			<xsl:for-each select="b:Author/b:Author/b:NameList/b:Person">
@@ -215,13 +220,13 @@
 				<xsl:value-of select="b:Title"/>
 			</i>
 			<xsl:text>. In: </xsl:text>
-			<xsl:value-of select="b:PeriodicalTitle"/>
-			<xsl:if test="b:Edition !=''">
-				<xsl:text>, </xsl:text>
-				<xsl:value-of select="b:Edition"/>
-			</xsl:if>
+			<xsl:value-of select="b:PeriodicalTitle | b:JournalName"/>
 			<xsl:text>, </xsl:text>
 			<xsl:value-of select="b:Year"/>
+				<xsl:if test="b:Edition !=''">
+					<xsl:text>, </xsl:text>
+				<xsl:value-of select="b:Edition"/>
+			</xsl:if>
 			<xsl:text>, S. </xsl:text>
 			<xsl:value-of select="b:Pages"/>
 		</p>
@@ -249,7 +254,7 @@
 		</html>
 	</xsl:template>
 	<!--Defines the output of the Citation-->
-	<xsl:template match="b:Citation/b:Source[b:SourceType = 'Book']|b:Citation/b:Source[b:SourceType = 'DocumentFromInternetSite']|b:Citation/b:Source[b:SourceType = 'ArticleInAPeriodical']">
+	<xsl:template match="b:Citation/b:Source[b:SourceType = 'Book']|b:Citation/b:Source[b:SourceType = 'DocumentFromInternetSite']|b:Citation/b:Source[b:SourceType = 'ArticleInAPeriodical'] |b:Citation/b:Source[b:BIBTEX_Entry = 'articleinaperiodical'] |b:Citation/b:Source[b:BIBTEX_Entry = 'documentfrominternetsite']">
 		<html xmlns="http://www.w3.org/TR/REC-html40">
 			<body>
 				<xsl:if test="count(b:Author/b:Author/b:NameList/b:Person) &lt; 3">
