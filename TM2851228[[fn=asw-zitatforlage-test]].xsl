@@ -221,12 +221,12 @@
 			</i>
 			<xsl:text>. In: </xsl:text>
 			<xsl:value-of select="b:PeriodicalTitle | b:JournalName"/>
-			<xsl:text>, </xsl:text>
-			<xsl:value-of select="b:Year"/>
-				<xsl:if test="b:Edition !=''">
-					<xsl:text>, </xsl:text>
+			<xsl:if test="b:Edition !=''">
+				<xsl:text>, </xsl:text>
 				<xsl:value-of select="b:Edition"/>
 			</xsl:if>
+			<xsl:text>, </xsl:text>
+			<xsl:value-of select="b:Year"/>
 			<xsl:text>, S. </xsl:text>
 			<xsl:value-of select="b:Pages"/>
 		</p>
